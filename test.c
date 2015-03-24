@@ -27,28 +27,24 @@ int main(void)
     //!
     //struct timely_day day = timely_day_epoc_ctor();
 
-
-    //printf("{ wday: %d, mon: %d, mday: %d }\n", day.wday, day.mon, day.mday);
-    //printf(TIMELY_MONTH_NAME(TIMELY_MONTH_JULY) "\n");
-    //printf("%d\n", TIMELY_MONTH_JANUARY);
-    //printf("%d\n", 1 << 1);
-
-    //printf("<name>: %s\n<abbr_name>: %s\n<day_of_week>: %d\n<day_of_year>: %d\n\n",
-    //       day.name, day.abbr_name, day.day_of_week, day.day_of_year);
-
     struct timely_day day;
 
     for (int m = 0; m < month_days[TIMELY_MONTH_JANUARY]; ++m) {
         day = (m == 0) ? timely_month_ctor(NULL) : timely_month_ctor(&day);
 
-        printf("## " TIMELY_MONTH_NAME(TIMELY_MONTH_JANUARY) " ##\n"
-            "<mday>: %d\n<mon>: %d\n<wday>: %d\n\n",
-            day.mday, day.mon, day.wday);
+        // printf("## " TIMELY_MONTH_NAME(TIMELY_MONTH_JANUARY) " ##\n"
+            // "<mday>: %d\n<mon>: %d\n<wday>: %d\n\n",
+            // day.mday, day.mon, day.wday);
 
 
         // printf("## %s | %s ##\n" "<mday>: %d\n<mon>: %d\n<wday>: %d\n\n",
             // TIMELY_MONTH_NAME(TIMELY_MONTH_JULY),
             // TIMELY_DAY_NAME(dn), day.mday, day.mon, day.wday);
+
+        printf("\n## NEW DAY ##\n");
+        printf("<day.of_month>: %02d\n", day.of_month);
+        printf("<day.of_week>:  %02d\n", day.of_week);
+        printf("<day.of_year>:  %03d\n", day.of_year);
     }
 
     char buffer[BUFSIZ] = {0};

@@ -35,8 +35,10 @@
 
 //./ --------------------
 
-enum { TIMELY_DAYS_IN_WEEK = 7, TIMELY_MONTHS_IN_YEAR = 12,
-       TIMELY_EPOC_YEAR = 1970 };
+enum { TIMELY_DAYS_IN_WEEK = 7, TIMELY_MONTHS_IN_YEAR = 12 };
+       //-/ , TIMELY_EPOC_YEAR = 1970 };
+
+#define TIMELY_YEAR_EPOC  1970
 
 //-/ `tm_wday` - day of week (Sunday = 0)
 //!

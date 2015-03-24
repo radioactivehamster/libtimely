@@ -16,7 +16,7 @@
 ///
 /// TL;DR - A data type must be a pointer to set it as `NULL`.
 ///
-struct timely_day timely_month_ctor(struct timely_day *restrict prev_day)
+struct timely_day timely_month_ctor(struct timely_day *restrict prev)
 {
     //!
     //! @todo Maybe use a static var instead of passing the struct argv manually?
@@ -24,20 +24,26 @@ struct timely_day timely_month_ctor(struct timely_day *restrict prev_day)
     //!
 
     //! <http://www.timeanddate.com/calendar/?year=1970&country=1>
-    if (!prev_day) {
+    if (!prev) {
         return timely_day_epoc_ctor();
     }
 
-    uint8_t day_of_week = prev_day->wday + 1;
+    // uint8_t day_of_week = prev_day->wday + 1;
+    uint8_t day_of_week = prev->of_week + 1;
 
+    // if (day_of_week >= TIMELY_DAYS_IN_WEEK) {
     if (day_of_week >= TIMELY_DAYS_IN_WEEK) {
         day_of_week = 0;
     }
 
     return (struct timely_day) {
-        .mday = prev_day->mday + 1,  //!< day of month (1 - 31)
-        .mon  = prev_day->mon,       //!< month of year (0 - 11)
-        .wday = day_of_week          //!< day of week (Sunday = 0)
+        //.mday = prev_day->mday + 1,  //!< day of month (1 - 31)
+        //.mon  = prev_day->mon,       //!< month of year (0 - 11)
+        //.wday = day_of_week          //!< day of week (Sunday = 0)
+        .in_month = prev->in_month,
+        .of_month = prev->of_month + 1,
+        .of_week  = day_of_week,
+        .of_year  = prev->of_year + 1
     };
 }
 
