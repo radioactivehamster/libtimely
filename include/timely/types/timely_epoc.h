@@ -14,4 +14,4 @@ struct timely_epoc {
     struct timely_year years[];
 };
 
-#endif
+#endif /* TIMELY_EPOC_H */

@@ -1,4 +1,5 @@
 ```c
+//!< `struct tm` members
 int tm_sec;     /* seconds (0 - 60) */
 int tm_min;     /* minutes (0 - 59) */
 int tm_hour;    /* hours (0 - 23) */

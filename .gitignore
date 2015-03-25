@@ -1,6 +1,15 @@
+*~
 *.d
+*.dll
 *.o
 *.out
 *.so
+*.tar
+*.tgz
+*.txz
+*.tar.bz2
+*.tar.gz
+*.tar.xz
+*.zip
 .linter-clang-includes
 .DS_Store
