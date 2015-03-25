@@ -40,6 +40,10 @@ enum { TIMELY_DAYS_IN_WEEK = 7, TIMELY_MONTHS_IN_YEAR = 12 };
 
 #define TIMELY_YEAR_EPOC  1970
 
+#define TIMELY_EPOC_YEAR          1970
+#define TIMELY_EPOC_DAY_OF_MONTH  1
+#define TIMELY_EPOC_DAY_OF_YEAR   1
+
 //-/ `tm_wday` - day of week (Sunday = 0)
 //!
 //! @deprecated Use the `TIMELY_DAY_x` macros instead.
@@ -49,18 +53,17 @@ enum { TIMELY_DAY_OF_WEEK_SUNDAY, TIMELY_DAY_OF_WEEK_MONDAY,
        TIMELY_DAY_OF_WEEK_THURSDAY, TIMELY_DAY_OF_WEEK_FRIDAY,
        TIMELY_DAY_OF_WEEK_SATURDAY };
 
-#define TIMELY_DAY_SUNDAY     0
-#define TIMELY_DAY_MONDAY     1
-#define TIMELY_DAY_TUESDAY    2
-#define TIMELY_DAY_WEDNESDAY  3
-#define TIMELY_DAY_THURSDAY   4
-#define TIMELY_DAY_FRIDAY     5
-#define TIMELY_DAY_SATURDAY   6
+//-/ enum { SECONDS_PER_DAY = 86400 };
 
-/* enum { TIMELY_MONTH_JANUARY, TIMELY_MONTH_FEBRUARY, TIMELY_MONTH_MARCH,
-          TIMELY_MONTH_APRIL, TIMELY_MONTH_MAY, TIMELY_MONTH_JUNE,
-          TIMELY_MONTH_JULY, TIMELY_MONTH_AUGUST, TIMELY_MONTH_SEPTEMBER,
-          TIMELY_MONTH_OCTOBER, TIMELY_MONTH_NOVEMBER, TIMELY_MONTH_DECEMBER }; */
+#define TIMELY_DAY_SECONDS_PER  86400
+
+#define TIMELY_DAY_SUNDAY       0
+#define TIMELY_DAY_MONDAY       1
+#define TIMELY_DAY_TUESDAY      2
+#define TIMELY_DAY_WEDNESDAY    3
+#define TIMELY_DAY_THURSDAY     4
+#define TIMELY_DAY_FRIDAY       5
+#define TIMELY_DAY_SATURDAY     6
 
 #define TIMELY_MONTH_JANUARY    0
 #define TIMELY_MONTH_FEBRUARY   1
@@ -211,7 +214,8 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 #include "timely/types/timely_year.h"
 #include "timely/types/timely_epoc.h"
 
-#include "timely/day//timely_day_epoc_ctor.h"
+#include "timely/epoc/timely_epoc_ctor.h"
+#include "timely/day/timely_day_epoc_ctor.h"
 #include "timely/month/timely_month_ctor.h"
 
 //-/ --------------------

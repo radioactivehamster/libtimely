@@ -4,17 +4,26 @@
 #include <stdint.h>
 
 struct timely_day {
-    uint8_t in_month;  //!< [no map to `tm`] - calendar month index (0 - 11)
-    uint8_t of_month;  //!< `struct tm.mday` - day of month (1 - 31)
-    uint8_t of_week;   //!< `struct tm.wday` - day of week (Sunday = 0)
-    int16_t of_year;   //!< `struct tm.mon`  - month of year (0 - 11)
+    uint8_t in_month;  //!< month of year (0 - 11)                   - [rel] `struct tm.tm_mon`
+    int16_t in_year;   //!< year - 1900                              - `struct tm.tm_year`
+    int8_t is_dst;     //!< is summer time in effect? (-1 if unsure) - `struct tm.tm_isdst`
+    uint8_t of_month;  //!< day of month (1 - 31)                    - `struct tm.tm_mday`
+    uint8_t of_week;   //!< day of week (Sunday = 0)                 - `struct tm.tm_wday`
+    int16_t of_year;   //!< day of year (0 - 365)                    - `struct tm.tm_yday`
 
-    //uint8_t mday;           //!< day of month (1 - 31)
-    //uint8_t mon;            //!< month of year (0 - 11)
-    //uint8_t wday;           //!< day of week (Sunday = 0)
+    //! ------------------------
+    //! POSIX `struct tm` fields
+    //! ------------------------
+    //!< char *tm_zone;  /* abbreviation of timezone name */ - e.g. "utc" (???)
+    //!< long tm_gmtoff; /* offset from UTC in seconds */
 
-    //uint8_t day_of_year;
-    //uint8_t yday;
+
+    //-/ int tm_sec;     /* seconds (0 - 60) */
+    //-/ int tm_min;     /* minutes (0 - 59) */
+    //-/ int tm_hour;    /* hours (0 - 23) */
+    //-/ int tm_isdst;   /* is summer time in effect? */
+    //-/ char *tm_zone;  /* abbreviation of timezone name */
+    //-/ long tm_gmtoff; /* offset from UTC in seconds */
 };
 
 #endif

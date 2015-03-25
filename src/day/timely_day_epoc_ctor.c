@@ -2,16 +2,10 @@
 
 struct timely_day timely_day_epoc_ctor(void)
 {
-    /* return (struct timely_day) {
-        .wday = TIMELY_DAY_OF_WEEK_THURSDAY,  //!< day of week (Sunday = 0)
-        .mon  = TIMELY_MONTH_JANUARY,         //!< month of year (0 - 11)
-        .mday = 1                             //!< day of month (1 - 31)
-    }; */
-
     return (struct timely_day) {
-        .in_month = TIMELY_MONTH_JANUARY,
-        .of_month = 1,
-        .of_week  = TIMELY_DAY_THURSDAY,
-        .of_year  = 1
+        .in_month = TIMELY_MONTH_JANUARY,      //! `0` - calendar month index (0 - 11) - [no map to `struct tm`]
+        .of_month = TIMELY_EPOC_DAY_OF_MONTH,  //! `1` - day of month (1 - 31)         - `struct tm.tm_mday`
+        .of_week  = TIMELY_DAY_THURSDAY,       //! `4` - day of week (Sunday = 0)      - `struct tm.tm_wday`
+        .of_year  = TIMELY_EPOC_DAY_OF_YEAR    //! `1` - month of year (0 - 11)        - `struct tm.tm_mon`
     };
 }

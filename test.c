@@ -1,45 +1,172 @@
 #include <assert.h>
 #include "timely.h"
 
+void time_h_tm_dump(struct tm *restrict t);
+void time_h_scratch(void);
+void timely_day_scratch(void);
+
+// --------------------
+
 int main(void)
 {
-    //struct timely_day day = timely_month_ctor(NULL);
+    time_h_scratch();
+}
 
-    //printf("<name>: %s\n<abbr_name>: %s\n<day_of_week>: %d\n<day_of_year>: %d\n\n",
-    //       day.name, day.abbr_name, day.day_of_week, day.day_of_year);
+// --------------------
 
-    // Start at `1` since we covered the `0` index already.
-    //for (int m = 1; m < month_days[TIMELY_MONTH_JANUARY]; ++m) {
-    //    day = timely_month_ctor(&day);
+void time_h_tm_dump(struct tm *restrict t)
+{
+    //-/ size_t col = 60;
 
-    //    printf("<name>: %s\n<abbr_name>: %s\n<day_of_week>: %d\n<day_of_year>: %d\n\n",
-    //           day.name, day.abbr_name, day.day_of_week, day.day_of_year);
-    //}
+    printf("(struct tm) {\n"
+           "    .tm_sec    = %02d,     /* seconds (0 - 60)              */\n"
+           "    .tm_min    = %02d,     /* minutes (0 - 59)              */\n"
+           "    .tm_hour   = %02d,     /* hours (0 - 23)                */\n"
+           "    .tm_mday   = %02d,     /* day of month (1 - 31)         */\n"
+           "    .tm_mon    = %02d,     /* month of year (0 - 11)        */\n"
+           "    .tm_year   = %04d,   /* year - 1900                   */\n"
+           "    .tm_wday   = %02d,     /* day of week (Sunday   = 0)    */\n"
+           "    .tm_yday   = %03d,    /* day of year (0 - 365)         */\n"
+           "    .tm_isdst  = %1d,      /* is summer time in effect?     */\n"
+           "    .tm_zone   = \"%s\",  /* abbreviation of timezone name */\n"
+           "    .tm_gmtoff = %ld  /* offset from UTC in seconds    */\n"
+           "}\n",
+           t->tm_sec,
+           t->tm_min,
+           t->tm_hour,
+           t->tm_mday,
+           t->tm_mon,
+           t->tm_year,
+           t->tm_wday,
+           t->tm_yday,
+           t->tm_isdst,
+           t->tm_zone,
+           t->tm_gmtoff);
+}
 
-    //!
-    //! ```c
-    //! struct timely_day {
-    //!     uint8_t wday;    //!< > day of week (Sunday = 0)
-    //!     uint8_t mon;     //!< > month of year (0 - 11)
-    //!     uint8_t mday;    //!< > day of month (1 - 31)
-    //! };
-    //! ```
-    //!
-    //struct timely_day day = timely_day_epoc_ctor();
+// --------------------
 
+//! @link <http://stackoverflow.com/questions/3068397/finding-the-length-of-an-integer-in-c#answer-3068420>
+double num_digitsl(long l)
+{
+    //! `signbit()` > Nonzero integral value if arg is negative, ​0​ otherwise.
+
+    //!< @link Errors are reported as specified in math_errhandling.
+    return (l == 0) ? 1 : floor(log10(abs(l))) + 1;
+}
+
+// --------------------
+
+//! @link <stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c#answer-1068937>
+int int_num_recurse_digitsl(long l)
+{
+    if (l < 0) {
+        return int_num_recurse_digitsl(l == LONG_MIN ? LONG_MAX : -l);
+    }
+
+    if (l < 10) {
+        return 1;
+    }
+
+    return int_num_recurse_digitsl(l / 10) + 1;
+}
+
+
+// --------------------
+
+//! @link <stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c#answer-1068937>
+int int_num_iter_placesl(long n) {
+    int r = 1;
+
+    if (n < 0) n = (n == LONG_MIN) ? LONG_MAX : -n;
+
+    while (n > 9) {
+        n /= 10;
+        ++r;
+    }
+
+    return r;
+}
+
+// --------------------
+
+//! @link <stackoverflow.com/questions/1068849/how-do-i-determine-the-number-of-digits-of-an-integer-in-c#answer-1068937>
+int int_num_digitsl(long l)
+{
+    if (l < 0) {
+        return int_num_digitsl(l == LONG_MIN ? LONG_MAX : -l);
+    }
+
+    if (l < 10) {
+        return 1;
+    }
+
+    return int_num_digitsl(l / 10) + 1;
+}
+
+// --------------------
+
+void time_h_scratch(void)
+{
+    time_t now = time(NULL);
+    printf("(ctime) %s\n", ctime(&now));
+
+    printf("-----\n\n");
+
+    struct tm *t = localtime(&now);
+    time_h_tm_dump(t);
+
+    char buffer[BUFSIZ] = {0};
+    snprintf(buffer, BUFSIZ, "%ld", t->tm_gmtoff);
+
+    printf("\n\"%s\" : %02zu : <log> %f\n", buffer, strlen(buffer), num_digitsl(t->tm_gmtoff));
+    printf("<truc log> %f\n", trunc(num_digitsl(t->tm_gmtoff)));
+    printf("<int cast log> %d\n", (int) num_digitsl(t->tm_gmtoff));
+    printf("<int cast truc log> %d\n", (int) trunc(num_digitsl(t->tm_gmtoff)));
+    printf("<int_num_recurse_digitsl> %d\n", int_num_recurse_digitsl(t->tm_gmtoff));
+    printf("<int_num_digitsl> %d\n", int_num_digitsl(t->tm_gmtoff));
+    printf("<int_num_iter_placesl> %d\n", int_num_iter_placesl(t->tm_gmtoff));
+    //printf("<floor log> %f\n", floor(num_digitsl(t->tm_gmtoff)));
+    //printf("<ceil log> %f\n", ceil(num_digitsl(t->tm_gmtoff)));
+    //printf("<round log> %f\n", round(num_digitsl(t->tm_gmtoff)));
+
+    printf("\n | [(epoc).num_days]: %ld | \n\n", (now / TIMELY_DAY_SECONDS_PER));
+
+    printf("\n-----\n\n");
+
+    t = gmtime(&now);
+    time_h_tm_dump(t);
+
+    memset(buffer, 0, BUFSIZ);
+    snprintf(buffer, BUFSIZ, "%ld", t->tm_gmtoff);
+
+    printf("\n\"%s\" : %02zu : <log> %f\n", buffer, strlen(buffer), num_digitsl(t->tm_gmtoff));
+    printf("<truc log> %f\n", trunc(num_digitsl(t->tm_gmtoff)));
+    printf("<int cast log> %d\n", (int) num_digitsl(t->tm_gmtoff));
+    printf("<int cast truc log> %d\n", (int) trunc(num_digitsl(t->tm_gmtoff)));
+    printf("<int_num_recurse_digitsl> %d\n", int_num_recurse_digitsl(t->tm_gmtoff));
+    printf("<int_num_digitsl> %d\n", int_num_digitsl(t->tm_gmtoff));
+    printf("<int_num_iter_placesl> %d\n", int_num_iter_placesl(t->tm_gmtoff));
+    //printf("<floor log> %f\n", floor(num_digitsl(t->tm_gmtoff)));
+    //printf("<ceil log> %f\n", ceil(num_digitsl(t->tm_gmtoff)));
+    //printf("<round log> %f\n", round(num_digitsl(t->tm_gmtoff)));
+
+    printf("\n | [(epoc).num_days]: %ld | \n\n", (now / TIMELY_DAY_SECONDS_PER));
+
+    printf("\n");
+
+    // struct timely_epoc timely_epoc_ctor(time_t timer);
+    printf("\n | [(ctor).num_days]: %ld | \n\n", (timely_epoc_ctor(now)).num_days);
+}
+
+// --------------------
+
+void timely_day_scratch(void)
+{
     struct timely_day day;
 
     for (int m = 0; m < month_days[TIMELY_MONTH_JANUARY]; ++m) {
         day = (m == 0) ? timely_month_ctor(NULL) : timely_month_ctor(&day);
-
-        // printf("## " TIMELY_MONTH_NAME(TIMELY_MONTH_JANUARY) " ##\n"
-            // "<mday>: %d\n<mon>: %d\n<wday>: %d\n\n",
-            // day.mday, day.mon, day.wday);
-
-
-        // printf("## %s | %s ##\n" "<mday>: %d\n<mon>: %d\n<wday>: %d\n\n",
-            // TIMELY_MONTH_NAME(TIMELY_MONTH_JULY),
-            // TIMELY_DAY_NAME(dn), day.mday, day.mon, day.wday);
 
         printf("\n## NEW DAY ##\n");
         printf("<day.of_month>: %02d\n", day.of_month);
