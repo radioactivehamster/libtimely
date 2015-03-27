@@ -7,16 +7,33 @@ void time_h_scratch(void);
 void timely_day_scratch(void);
 void timely_epoc_seconds_days_months(void);
 
-// --------------------
-
-int main(void)
+void timely_locale_set_default(void)
 {
     const char *lc = setlocale(LC_ALL, NULL);
 
-    printf("Initial Locale: %s\n", lc);
-    printf("=================\n\n");
+    //!< Random heads up msg for debug yo...
+    printf("> [INFO] Initial Locale: %s\n", lc);
 
     setlocale(LC_ALL, "");
+}
+
+void _printnl(void)
+{
+    printf("\n");
+}
+
+// --------------------
+
+//!
+//! @todo Remove cruft and break down the tests into smaller files for epic(ish)
+//!       focus and then align the RFC1123 timestamp to mirror the Timely(!!!!!)
+//!       test calls. DO IT ME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//!
+//!
+int main(void)
+{
+    timely_locale_set_default();
+    _printnl();
 
     timely_epoc_seconds_days_months();
 }
@@ -70,6 +87,7 @@ void timely_epoc_seconds_days_months(void)
     printf("<rfc1123:timestamp>         %s\n", tsbuf);
 
     printf("\n-----\n");
+    _printnl();
 
     t     -= (TIMELY_DAY_SECONDS_PER / ndays);
     m     += 1;
@@ -86,6 +104,7 @@ void timely_epoc_seconds_days_months(void)
     printf("<rfc1123:timestamp>         %s\n", tsbuf);
 
     printf("\n-----\n");
+    _printnl();
 
     t     -= (TIMELY_DAY_SECONDS_PER / ndays);
     m     += 1;
@@ -102,6 +121,7 @@ void timely_epoc_seconds_days_months(void)
     printf("<rfc1123:timestamp>         %s\n", tsbuf);
 
     printf("\n-----\n");
+    _printnl();
 
     t     -= (TIMELY_DAY_SECONDS_PER / ndays);
     m     += 1;
