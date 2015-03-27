@@ -12,7 +12,10 @@ void timely_epoc_seconds_days_months(void);
 int main(void)
 {
     const char *lc = setlocale(LC_ALL, NULL);
-    printf("Current locale: %s\n", lc);
+
+    printf("Initial Locale: %s\n", lc);
+    printf("=================\n\n");
+
     setlocale(LC_ALL, "");
 
     timely_epoc_seconds_days_months();
@@ -31,8 +34,7 @@ int _num_days_in_month(uint16_t year, uint8_t month)
         })[month];
     }
 
-    //!< February 29; leap day.
-    return 29;
+    return 29; //!< February 29; leap day.
 }
 
 void timely_epoc_seconds_days_months(void)
@@ -43,47 +45,70 @@ void timely_epoc_seconds_days_months(void)
     };
 
     time_t now = time(NULL);
+    struct tm gmt;
     struct timely_epoc epoc = timely_epoc_ctor(now);
 
-    // uint16_t y = epoc.year;
-
-    time_t t = epoc.time;
+    time_t t = epoc.time; //-/ 0;
+    gmt = *gmtime(&t);
     int m = 0;
     int ndays;
     int tdays = t / TIMELY_DAY_SECONDS_PER;
 
+    // -----
+
+    enum { RFC1123_SIZE = 30 };
+    char tsbuf[RFC1123_SIZE] = {0};
+    size_t tslen; //!< `size_t timely_rfc1123_timestamp(char *dest, rsize_t dmax, const time_t *restrict timer);`
+
     //printf("<time>: %ld\n", t);
 
     ndays = _num_days_in_month(1970, m);
-    printf("<time:tdays:month:days_in>  %'ld : %d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+    //!/ ndays = _num_days_in_month(gmt.tm_year, gmt.tm_mon);
+    printf("<time:tdays:month:days_in>  %'ld : %'d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+    //!/ printf("<time:tdays:month:days_in>  %'ld : %'d : %-8s : %d\n", t, tdays, mon_names[gmt.tm_mon], ndays);
+    tslen = timely_rfc1123_timestamp(tsbuf, RFC1123_SIZE, &t);
+    printf("<rfc1123:timestamp>         %s\n", tsbuf);
 
     printf("\n-----\n");
 
-    t -= (TIMELY_DAY_SECONDS_PER / ndays);
-    m += 1;
-    tdays = (t / TIMELY_DAY_SECONDS_PER);
+    t     -= (TIMELY_DAY_SECONDS_PER / ndays);
+    m     += 1;
+    tdays  = (t / TIMELY_DAY_SECONDS_PER);
+    gmt    = *gmtime(&t);
+
+    memset(tsbuf, 0, RFC1123_SIZE);
 
     //-/ =====
 
     ndays = _num_days_in_month(1970, m);
-    printf("<time:tdays:month:days_in>  %ld : %d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+    printf("<time:tdays:month:days_in>  %'ld : %'d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+    tslen = timely_rfc1123_timestamp(tsbuf, RFC1123_SIZE, &t);
+    printf("<rfc1123:timestamp>         %s\n", tsbuf);
 
     printf("\n-----\n");
 
-    t -= (TIMELY_DAY_SECONDS_PER / ndays);
-    m += 1;
-    tdays = (t / TIMELY_DAY_SECONDS_PER);
+    t     -= (TIMELY_DAY_SECONDS_PER / ndays);
+    m     += 1;
+    tdays  = (t / TIMELY_DAY_SECONDS_PER);
+    gmt    = *gmtime(&t);
+
+    memset(tsbuf, 0, RFC1123_SIZE);
 
     //-/ =====
 
     ndays = _num_days_in_month(1970, m);
-    printf("<time:tdays:month:days_in>  %ld : %d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+    printf("<time:tdays:month:days_in>  %'ld : %'d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+    tslen = timely_rfc1123_timestamp(tsbuf, RFC1123_SIZE, &t);
+    printf("<rfc1123:timestamp>         %s\n", tsbuf);
 
     printf("\n-----\n");
 
-    t -= (TIMELY_DAY_SECONDS_PER / ndays);
-    m += 1;
-    tdays = (t / TIMELY_DAY_SECONDS_PER);
+    t     -= (TIMELY_DAY_SECONDS_PER / ndays);
+    m     += 1;
+    tdays  = (t / TIMELY_DAY_SECONDS_PER);
+    gmt    = *gmtime(&t);
+
+    memset(tsbuf, 0, RFC1123_SIZE);
 
     //-/ =====
 

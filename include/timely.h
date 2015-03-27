@@ -221,4 +221,6 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 #include "timely/day/timely_day_epoc_ctor.h"
 #include "timely/month/timely_month_ctor.h"
 
+#include "timely/rfc1123/timely_rfc1123_timestamp.h"
+
 //-/ --------------------
