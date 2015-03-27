@@ -1,8 +1,8 @@
 STD     = c11
 SRC     = $(wildcard src/*/*.c)
 OBJS    = $(SRC:.c=.o)
-CFLAGS  = -std=$(STD) -Iinclude
-CFLAGS += -pedantic -O2
+CFLAGS ?= -std=$(STD)
+CFLAGS += -pedantic -O2 -Iinclude
 CFLAGS += -Wall -Wextra -Wno-overlength-strings -Wswitch-default
 
 test: test.c $(OBJS)
@@ -21,13 +21,3 @@ retest: clean test
 
 
 # .PHONEY: clean test
-
-# -------------------
-
-# build: $(SRC)
-# 	$(CC) -std=gnu11 -O3 -Wall -Wpedantic $(SRC) -o $(BIN)
-#
-# clean:
-# 	rm -f *.o core $(BIN)
-#
-# rebuild: clean build

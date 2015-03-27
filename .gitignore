@@ -13,3 +13,4 @@
 *.zip
 .linter-clang-includes
 .DS_Store
+*.scratch
