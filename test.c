@@ -1,15 +1,104 @@
 #include <assert.h>
+#include <locale.h>
 #include "timely.h"
 
 void time_h_tm_dump(struct tm *restrict t);
 void time_h_scratch(void);
 void timely_day_scratch(void);
+void timely_epoc_seconds_days_months(void);
 
 // --------------------
 
 int main(void)
 {
-    time_h_scratch();
+    const char *lc = setlocale(LC_ALL, NULL);
+    printf("Current locale: %s\n", lc);
+    setlocale(LC_ALL, "");
+
+    timely_epoc_seconds_days_months();
+}
+
+// --------------------
+
+//!< `#define TIMELY_MONTH_JANUARY 0`
+int _num_days_in_month(uint16_t year, uint8_t month)
+{
+    printf("(YEAR) %s\n", timely_year_is_leap(year) == true ? "<leap-year>" : "<common-year>");
+
+    if (month != TIMELY_MONTH_FEBRUARY || timely_year_is_leap(year) == false) {
+        return ((uint8_t[TIMELY_MONTHS_IN_YEAR]) {
+            31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+        })[month];
+    }
+
+    //!< February 29; leap day.
+    return 29;
+}
+
+void timely_epoc_seconds_days_months(void)
+{
+    static const char *const mon_names[TIMELY_MONTHS_IN_YEAR] = {
+        "January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"
+    };
+
+    time_t now = time(NULL);
+    struct timely_epoc epoc = timely_epoc_ctor(now);
+
+    // uint16_t y = epoc.year;
+
+    time_t t = epoc.time;
+    int m = 0;
+    int ndays;
+    int tdays = t / TIMELY_DAY_SECONDS_PER;
+
+    //printf("<time>: %ld\n", t);
+
+    ndays = _num_days_in_month(1970, m);
+    printf("<time:tdays:month:days_in>  %'ld : %d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+
+    printf("\n-----\n");
+
+    t -= (TIMELY_DAY_SECONDS_PER / ndays);
+    m += 1;
+    tdays = (t / TIMELY_DAY_SECONDS_PER);
+
+    //-/ =====
+
+    ndays = _num_days_in_month(1970, m);
+    printf("<time:tdays:month:days_in>  %ld : %d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+
+    printf("\n-----\n");
+
+    t -= (TIMELY_DAY_SECONDS_PER / ndays);
+    m += 1;
+    tdays = (t / TIMELY_DAY_SECONDS_PER);
+
+    //-/ =====
+
+    ndays = _num_days_in_month(1970, m);
+    printf("<time:tdays:month:days_in>  %ld : %d : %-8s : %d\n", t, tdays, mon_names[m], ndays);
+
+    printf("\n-----\n");
+
+    t -= (TIMELY_DAY_SECONDS_PER / ndays);
+    m += 1;
+    tdays = (t / TIMELY_DAY_SECONDS_PER);
+
+    //-/ =====
+
+    //printf("<time>:     %ld\n", epoc.time);
+    //for (time_t t = epoc.time; t; --t) {
+    //uint16_t days = epoc.num_days;
+    //printf("<time>:     %ld\n", t / );
+    //}
+
+    //printf("<time>:     %ld\n", epoc.time);
+    //printf("<num_days>: %ld\n", epoc.num_days);
+
+    //!< `bool timely_year_is_leap(uint16_t year);`
+    //int ndays = _num_days_in_month(1970, TIMELY_MONTH_JANUARY);
+    //printf("<month:days_in>: %d\n", ndays);
 }
 
 // --------------------
@@ -68,7 +157,6 @@ int int_num_recurse_digitsl(long l)
         return 1;
     }
 
-    //return (__func__)(l / 10) + 1;
     return int_num_recurse_digitsl(l / 10) + 1;
 }
 
@@ -127,9 +215,6 @@ void time_h_scratch(void)
     printf("<int_num_recurse_digitsl> %d\n", int_num_recurse_digitsl(t->tm_gmtoff));
     printf("<int_num_digitsl> %d\n", int_num_digitsl(t->tm_gmtoff));
     printf("<int_num_iter_placesl> %d\n", int_num_iter_placesl(t->tm_gmtoff));
-    //printf("<floor log> %f\n", floor(num_digitsl(t->tm_gmtoff)));
-    //printf("<ceil log> %f\n", ceil(num_digitsl(t->tm_gmtoff)));
-    //printf("<round log> %f\n", round(num_digitsl(t->tm_gmtoff)));
 
     printf("\n | [(epoc).num_days]: %ld | \n\n", (now / TIMELY_DAY_SECONDS_PER));
 
@@ -148,9 +233,6 @@ void time_h_scratch(void)
     printf("<int_num_recurse_digitsl> %d\n", int_num_recurse_digitsl(t->tm_gmtoff));
     printf("<int_num_digitsl> %d\n", int_num_digitsl(t->tm_gmtoff));
     printf("<int_num_iter_placesl> %d\n", int_num_iter_placesl(t->tm_gmtoff));
-    //printf("<floor log> %f\n", floor(num_digitsl(t->tm_gmtoff)));
-    //printf("<ceil log> %f\n", ceil(num_digitsl(t->tm_gmtoff)));
-    //printf("<round log> %f\n", round(num_digitsl(t->tm_gmtoff)));
 
     printf("\n | [(epoc).num_days]: %ld | \n\n", (now / TIMELY_DAY_SECONDS_PER));
 

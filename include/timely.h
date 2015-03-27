@@ -209,12 +209,15 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 
 //-/ --------------------
 
+#include "timely/year/timely_year_definitions.h"
+
 #include "timely/types/timely_day.h"
 #include "timely/types/timely_month.h"
 #include "timely/types/timely_year.h"
 #include "timely/types/timely_epoc.h"
 
 #include "timely/epoc/timely_epoc_ctor.h"
+#include "timely/year/timely_year_is_leap.h"
 #include "timely/day/timely_day_epoc_ctor.h"
 #include "timely/month/timely_month_ctor.h"
 

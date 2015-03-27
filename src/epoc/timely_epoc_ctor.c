@@ -3,7 +3,7 @@
 struct timely_epoc timely_epoc_ctor(time_t timer)
 {
     //! time_t num_days; //!< @todo Is `time_t` the right type? <T> should be signed.
-    time_t ndays = timer / TIMELY_DAY_SECONDS_PER;
+    //time_t ndays = timer / TIMELY_DAY_SECONDS_PER;
 
     //!
     //! ```c
@@ -11,5 +11,8 @@ struct timely_epoc timely_epoc_ctor(time_t timer)
     //! ```
     //!
 
-    return (struct timely_epoc) { .num_days = ndays };
+    return (struct timely_epoc) {
+        .time     = timer,
+        .num_days = timer / TIMELY_DAY_SECONDS_PER
+    };
 }
