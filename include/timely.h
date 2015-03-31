@@ -1,4 +1,7 @@
-#pragma once
+#ifndef TIMELY_H
+#define TIMELY_H
+
+//#pragma once
 
 #include <assert.h>
 #include <inttypes.h>
@@ -209,8 +212,10 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 
 //-/ --------------------
 
+// ## Year
 #include "timely/year/timely_year_definitions.h"
 
+// ## Type
 #include "timely/types/timely_day.h"
 #include "timely/types/timely_month.h"
 #include "timely/types/timely_year.h"
@@ -221,9 +226,12 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 #include "timely/day/timely_day_epoc_ctor.h"
 #include "timely/month/timely_month_ctor.h"
 
+// ## Locale
+#include "timely/locale/timely_locale_set_default.h"
+
+// ## RFC1123
 #include "timely/rfc1123/timely_rfc1123_timestamp.h"
 
 //-/ --------------------
 
-#include "test-utils/_num_days_in_month.h"
-#include "test-utils/_timely_epoc_seconds_days_months.h"
+#endif  /* TIMELY_H */

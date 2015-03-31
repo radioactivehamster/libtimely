@@ -1,3 +1,5 @@
+#pragma once
+
 #include "timely.h"
 
 //!< `#define TIMELY_MONTH_JANUARY 0`
@@ -11,5 +13,5 @@ int _num_days_in_month(uint16_t year, uint8_t month)
         })[month];
     }
 
-    return 29; //!< February 29; leap day.
+    return 29;  //!< February 29; leap day.
 }
