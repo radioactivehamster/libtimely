@@ -1,32 +1,5 @@
-//#include "timely.h"
-
-// --------------------
-
-#ifndef _UTIL_NL
-#define _UTIL_NL
-
-#include <stdio.h>
-
-// --------------------
-
-void _printnl(void)
-{
-    printf("\n");
-}
-
-// --------------------
-
-void _printnnl(int n)
-{
-    int i = 0;
-
-    while (i++ < n) {
-        printf("[ %d ]!", i);
-        _printnl();
-    }
-}
-
-#endif /* _UTIL_NL */
+#include "_utils/_printnl.h"
+#include "_utils/_printnnl.h"
 
 // --------------------
 
