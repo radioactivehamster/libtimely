@@ -224,3 +224,6 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 #include "timely/rfc1123/timely_rfc1123_timestamp.h"
 
 //-/ --------------------
+
+#include "test-utils/_num_days_in_month.h"
+#include "test-utils/_timely_epoc_seconds_days_months.h"
