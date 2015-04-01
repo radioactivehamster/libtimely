@@ -8,6 +8,9 @@
 //!
 int main(void)
 {
+    // Set our locale to enable localized numeric formatting.
+    timely_locale_set_default();
+
     //! 1. Get the number of seconds since the epoc.
     time_t t = time(NULL);
     assert(t != (time_t)(-1));
@@ -22,6 +25,7 @@ int main(void)
     struct timely_day day;
     bool is_leap_year;
     uint8_t month_num_days;
+    int month_num_seconds;
 
     //! 2. Get the number of days since the epoc (via the epoc structure).
     epoc = timely_epoc_ctor(t);
@@ -44,7 +48,12 @@ int main(void)
         ? ((uint8_t[TIMELY_MONTHS_IN_YEAR]) { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[day.in_month]
         : 29;  //!< February 29; leap day.
 
-    //-/ printf("[epoc]: %lu, [days]: %ld, [month num days]: %hhu\n", epoc.time, epoc.num_days, month_num_days);
+    //! 6. Calculate the amount of seconds the month consists of.
+    month_num_seconds = (month_num_days * TIMELY_DAY_SECONDS_PER);
+
+
+    printf("[epoc]: %'lu, [days]: %ld, [month num days]: %hhu, [month num seconds]: %'d\n",
+        epoc.time, epoc.num_days, month_num_days, month_num_seconds);
 }
 
 // --------------------
