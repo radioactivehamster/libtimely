@@ -51,6 +51,17 @@ int main(void)
     //! 6. Calculate the amount of seconds the month consists of.
     month_num_seconds = (month_num_days * TIMELY_DAY_SECONDS_PER);
 
+    //! 7. Check if we have enough time in our timer for the entire month.
+    t -= month_num_seconds;
+
+    if (t < 0) {
+        //-/ Handle a partial month...
+    }
+
+    //! 8. Iteratively process the remaining days of the month.
+    // [...]
+
+    // ------------------------------------------------------------
 
     printf("[epoc]: %'lu, [days]: %ld, [month num days]: %hhu, [month num seconds]: %'d\n",
         epoc.time, epoc.num_days, month_num_days, month_num_seconds);
