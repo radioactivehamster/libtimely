@@ -8,6 +8,7 @@
     #define TIMELY_DAY_SECONDS_PER  86400
 #endif
 
+//! @todo Change this to a time ptr so it accepts nullptrs?
 struct timely_epoc timely_epoc_ctor(time_t timer);
 
 #endif  /* TIMELY_EPOC_CTOR_H */
