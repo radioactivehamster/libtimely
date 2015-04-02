@@ -226,6 +226,7 @@ static inline rsize_t timely_day_name_var(char *dest, uint8_t d, rsize_t dmax)
 #include "timely/year/timely_year_is_leap.h"
 #include "timely/day/timely_day_epoc_ctor.h"
 #include "timely/month/timely_month_ctor.h"
+#include "timely/month/timely_month_num_days.h"
 
 // ## Locale
 #include "timely/locale/timely_locale_set_default.h"
