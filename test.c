@@ -26,7 +26,7 @@ int main(void)
     struct timely_epoc epoc;
     struct timely_day day;
     uint8_t month_num_days;
-    int month_num_seconds;
+    //~/ int month_num_seconds;
 
     //! 2. Get the number of days since the epoc (via the epoc structure).
     epoc = timely_epoc_ctor(t);
@@ -44,22 +44,18 @@ int main(void)
     //! 4. Determine our representation is in a leap year. (initially we won't be)
     moment.in_leap_year = timely_year_is_leap(moment.year);  //-/ (TIMELY_YEAR_EPOC);
 
-    //! 5. Get the number of days in the representation month.
-    /** `uint16_t timely_month_num_days(uint16_t year, uint8_t month);` */
-    month_num_days = timely_month_num_days(moment.year, moment.month);
-    //-/month_num_days = (day.in_month != TIMELY_MONTH_FEBRUARY || moment.in_leap_year == false)
-    //-/    ? ((uint8_t[TIMELY_MONTHS_IN_YEAR]) { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[day.in_month]
-    //-/    : 29;  //!< February 29; leap day.
+    //! ~5~. Get the number of days in the representation month.
 
-    //! 6. Calculate the amount of seconds the month consists of.
-    month_num_seconds = (month_num_days * TIMELY_DAY_SECONDS_PER);
 
-    //! 7. Check if we have enough time in our timer for the entire month.
-    t -= month_num_seconds;
+    //! ~6~. Calculate the amount of seconds the month consists of.
+    //~/month_num_seconds = (month_num_days * TIMELY_DAY_SECONDS_PER);
 
-    if (t < 0) {
+    //! ~7~. Check if we have enough time in our timer for the entire month.
+    //~/t -= month_num_seconds;
+
+    //~/ if (t < 0) {
         //-/ Handle a partial month...
-    }
+    //~/ }
 
     //! 8. Iteratively process the days of each month in the year.
     while (moment.month <= 12) {
@@ -77,32 +73,40 @@ int main(void)
 
     // ------------------------------------------------------------
 
-//    moment.month += 1;
-//    month_num_days = ((moment.month - 1) != TIMELY_MONTH_FEBRUARY || moment.in_leap_year == false)
-//        ? ((uint8_t[TIMELY_MONTHS_IN_YEAR]) { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[moment.month - 1]
-//        : 29;  //!< February 29; leap day.
-//
-//    t -= (month_num_days * TIMELY_DAY_SECONDS_PER);
+    //! Janky test thingy...
+    ++moment.year;
+    moment.month = 1;
 
-//    if (t < 0) {
-        //-/ Handle a partial month...
-//    }
+    while (moment.month <= 12) {
+        month_num_days = timely_month_num_days(moment.year, moment.month);
+        printf("[month_num_days]: %hhu\n", month_num_days);
+        printf("--------------------\n");
 
-//    printf("\n==========\n\n");
-
-    //moment.day = 1;
-    //do {
-    //    printf("[year]: 1970, [month]: February, [day]: %hhu\n", moment.day);
-    //} while (moment.day++ < month_num_days);
-
-//    do {
-//        printf("%04hu.%02hhu.%02hhu\n", moment.year, moment.month, moment.day);
-//    } while (moment.day++ < month_num_days);
+        //! 8.1. Iteratively process the days of the month.
+        for (moment.day = 1; (moment.day - 1) < month_num_days; ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER) {
+            printf("%04hu.%02hhu.[%02hhu]:<%ld>\n", moment.year, moment.month, moment.day, moment.unix_time);
+        }
+        printf("\n==========\n\n");
+        ++moment.month;
+    }
 
     // ------------------------------------------------------------
 
-    //printf("[epoc]: %'lu, [days]: %ld, [month num days]: %hhu, [month num seconds]: %'d\n",
-    //    epoc.time, epoc.num_days, month_num_days, month_num_seconds);
-}
+    //! Janky test thingy part duex...
+    ++moment.year;
+    moment.month = 1;
 
-// --------------------
+    while (moment.month <= 12) {
+        month_num_days = timely_month_num_days(moment.year, moment.month);
+        printf("[month_num_days]: %hhu\n", month_num_days);
+        printf("--------------------\n");
+
+        //! 8.1. Iteratively process the days of the month.
+        for (moment.day = 1; (moment.day - 1) < month_num_days; ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER) {
+            printf("%04hu.%02hhu.[%02hhu]:<%ld>\n", moment.year, moment.month, moment.day, moment.unix_time);
+        }
+        printf("\n==========\n\n");
+        ++moment.month;
+    }
+
+}
