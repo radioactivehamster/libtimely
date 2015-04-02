@@ -19,7 +19,8 @@ int main(void)
         .year         = TIMELY_YEAR_EPOC,
         .month        = 1,
         .day          = 1,
-        .unix_time    = t,
+        .seconds      = -1,  //!< `int32_t`
+        .unix_time    = t,   //!< `time_t`
         .in_leap_year = false
      };
 
@@ -41,72 +42,41 @@ int main(void)
 
     // ------------------------------------------------------------
 
-    //! 4. Determine our representation is in a leap year. (initially we won't be)
-    moment.in_leap_year = timely_year_is_leap(moment.year);  //-/ (TIMELY_YEAR_EPOC);
+    do {
+        //! 4. Determine our representation is in a leap year. (initially we won't be)
+        moment.in_leap_year = timely_year_is_leap(moment.year);  //-/ (TIMELY_YEAR_EPOC);
 
-    //! ~5~. Get the number of days in the representation month.
+        if (moment.in_leap_year == true) printf("[leap year]: %4hu\n", moment.year);
+        else printf("_common year_: %4hu\n", moment.year);
 
+        //! 8. Iteratively process the days of each month in the year.
+        for (moment.month = 1; moment.month <= 12 && moment.unix_time > 0; ++moment.month) {
+            month_num_days = timely_month_num_days(moment.year, moment.month);
 
-    //! ~6~. Calculate the amount of seconds the month consists of.
-    //~/month_num_seconds = (month_num_days * TIMELY_DAY_SECONDS_PER);
+            if (moment.in_leap_year == true && moment.month == 2) printf("<<%hhu>>\n", month_num_days);
+            else if (moment.in_leap_year == false && moment.month == 2) printf("(%hhu)\n", month_num_days);
+            //printf("[month_num_days]: %hhu\n", month_num_days);
+            //printf("--------------------\n");
 
-    //! ~7~. Check if we have enough time in our timer for the entire month.
-    //~/t -= month_num_seconds;
+            //! 8.1. Iteratively process the days of the month.
+            for (moment.day = 1; moment.day <= month_num_days && moment.unix_time > 0;
+                    ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER) { //!< 86400
+                //printf("%04hu.%02hhu.[%02hhu]:<%ld>\n", moment.year, moment.month, moment.day, moment.unix_time);
+            }
 
-    //~/ if (t < 0) {
-        //-/ Handle a partial month...
-    //~/ }
-
-    //! 8. Iteratively process the days of each month in the year.
-    while (moment.month <= 12) {
-        month_num_days = timely_month_num_days(moment.year, moment.month);
-        printf("[month_num_days]: %hhu\n", month_num_days);
-        printf("--------------------\n");
-
-        //! 8.1. Iteratively process the days of the month.
-        for (moment.day = 1; (moment.day - 1) < month_num_days; ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER) {
-            printf("%04hu.%02hhu.[%02hhu]:<%ld>\n", moment.year, moment.month, moment.day, moment.unix_time);
+            //printf("\n==========\n\n");
         }
-        printf("\n==========\n\n");
-        ++moment.month;
-    }
+
+        //++moment.year;
+    } while (moment.unix_time > 0 && ++moment.year);
 
     // ------------------------------------------------------------
 
-    //! Janky test thingy...
-    ++moment.year;
-    moment.month = 1;
-
-    while (moment.month <= 12) {
-        month_num_days = timely_month_num_days(moment.year, moment.month);
-        printf("[month_num_days]: %hhu\n", month_num_days);
-        printf("--------------------\n");
-
-        //! 8.1. Iteratively process the days of the month.
-        for (moment.day = 1; (moment.day - 1) < month_num_days; ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER) {
-            printf("%04hu.%02hhu.[%02hhu]:<%ld>\n", moment.year, moment.month, moment.day, moment.unix_time);
-        }
-        printf("\n==========\n\n");
-        ++moment.month;
-    }
-
-    // ------------------------------------------------------------
-
-    //! Janky test thingy part duex...
-    ++moment.year;
-    moment.month = 1;
-
-    while (moment.month <= 12) {
-        month_num_days = timely_month_num_days(moment.year, moment.month);
-        printf("[month_num_days]: %hhu\n", month_num_days);
-        printf("--------------------\n");
-
-        //! 8.1. Iteratively process the days of the month.
-        for (moment.day = 1; (moment.day - 1) < month_num_days; ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER) {
-            printf("%04hu.%02hhu.[%02hhu]:<%ld>\n", moment.year, moment.month, moment.day, moment.unix_time);
-        }
-        printf("\n==========\n\n");
-        ++moment.month;
-    }
+    printf("\n========\n\n`TIMELY_DAY_SECONDS_PER` %d\n--------\n", TIMELY_DAY_SECONDS_PER);
+    //!< `#include <stdint.h>`
+    printf("`INT8_MAX`  %d\n", INT8_MAX);
+    printf("`INT16_MAX` %d\n", INT16_MAX);
+    printf("`INT32_MAX` %d\n", INT32_MAX);
+    printf("`INT64_MAX` %lld\n", INT64_MAX);
 
 }
