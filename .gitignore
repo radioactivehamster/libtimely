@@ -11,6 +11,7 @@
 *.tar.gz
 *.tar.xz
 *.zip
-.linter-clang-includes
 .DS_Store
 *.scratch
+.idea
+.linter-clang-includes

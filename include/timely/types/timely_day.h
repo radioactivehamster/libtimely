@@ -26,4 +26,4 @@ struct timely_day {
     //-/ long tm_gmtoff; /* offset from UTC in seconds */
 };
 
-#endif
+#endif  /* TIMELY_DAY_H */

@@ -15,17 +15,19 @@ int main(void)
     time_t t = time(NULL);
     assert(t != (time_t)(-1));
 
-    struct timely_moment{
-        uint16_t year;
-        uint8_t month;
-        uint8_t day;
-    };
+    //-/ struct timely_moment {
+    //-/     uint16_t year;
+    //-/     uint8_t month;
+    //-/     uint8_t day;
+    //-/     time_t unixtime;
+    //-/ };
 
     struct timely_epoc epoc;
     struct timely_day day;
     bool is_leap_year;
     uint8_t month_num_days;
     int month_num_seconds;
+    struct timely_moment moment = { .year = TIMELY_YEAR_EPOC, .month = 1, .day = 1 };
 
     //! 2. Get the number of days since the epoc (via the epoc structure).
     epoc = timely_epoc_ctor(t);
@@ -59,12 +61,36 @@ int main(void)
     }
 
     //! 8. Iteratively process the remaining days of the month.
-    // [...]
+    do {
+        //! @todo Factor in counting down the unixtime: `TIMELY_DAY_SECONDS_PER`
+        printf("[year]: 1970, [month]: January, [day]: %hhu\n", moment.day);
+    } while (moment.day++ < month_num_days);
 
     // ------------------------------------------------------------
 
-    printf("[epoc]: %'lu, [days]: %ld, [month num days]: %hhu, [month num seconds]: %'d\n",
-        epoc.time, epoc.num_days, month_num_days, month_num_seconds);
+    moment.month += 1;
+    month_num_days = ((moment.month - 1) != TIMELY_MONTH_FEBRUARY || is_leap_year == false)
+        ? ((uint8_t[TIMELY_MONTHS_IN_YEAR]) { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 })[moment.month - 1]
+        : 29;  //!< February 29; leap day.
+
+    t -= (month_num_days * TIMELY_DAY_SECONDS_PER);
+
+    if (t < 0) {
+        //-/ Handle a partial month...
+    }
+
+    printf("\n==========\n\n");
+
+    moment.day = 1;
+
+    do {
+        printf("[year]: 1970, [month]: February, [day]: %hhu\n", moment.day);
+    } while (moment.day++ < month_num_days);
+
+    // ------------------------------------------------------------
+
+    //printf("[epoc]: %'lu, [days]: %ld, [month num days]: %hhu, [month num seconds]: %'d\n",
+    //    epoc.time, epoc.num_days, month_num_days, month_num_seconds);
 }
 
 // --------------------
