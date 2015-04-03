@@ -96,7 +96,7 @@ int main(void)
     printf("\n||=========================||\n\n");
 
     struct tm *ttm = gmtime(&t);
-    
+
     printf("[libtimely:iso8601]: %04hu-%02hhu-%02hhuT%02d:%02d:%02dZ\n",
         moment.year, moment.month, moment.day, h, m, s);
     printf("[gmtime:iso8601]:    %04d-%02d-%02dT%02d:%02d:%02dZ\n",
