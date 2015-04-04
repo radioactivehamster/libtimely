@@ -7,7 +7,6 @@ CFLAGS += -Wall -Wextra -Wno-overlength-strings -Wswitch-default
 
 test: $(OBJS)
 	$(CC) $(CFLAGS) -o $(@).out $(@).c $(OBJS) && echo "\n" && ./$(@).out
-#	$(CC) $(CFLAGS) $^ -o "$@.out" $(OBJS) && echo "\n" && ./"$@.out"
 
 check-test: $(OBJS)
 	$(CC) $(CFLAGS) -o check-iso8601-test "tests/check-iso8601.c" -lcheck $(OBJS)

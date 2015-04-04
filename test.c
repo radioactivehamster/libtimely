@@ -22,6 +22,12 @@
 //! long tm_gmtoff; /* [non-standard] offset from UTC in seconds */
 //! ```
 //!
+//! ```c
+//! size_t
+//! strftime(char *restrict s, size_t maxsize, const char *restrict format,
+//!     const struct tm *restrict timeptr);
+//! ```
+//!
 int main(void)
 {
     // Set our locale to enable localized numeric formatting.
@@ -111,12 +117,12 @@ int main(void)
 
     printf("\n||=========================||\n\n");
 
-    struct tm *ttm = gmtime(&t);
+    struct tm *timeptr = gmtime(&t);
 
     printf("[libtimely:iso8601]: %04hu-%02hhu-%02hhuT%02d:%02d:%02dZ\n",
         moment.year, moment.month, moment.day, h, m, s);
     printf("[gmtime:iso8601]:    %04d-%02d-%02dT%02d:%02d:%02dZ\n",
-        (ttm->tm_year + 1900), (ttm->tm_mon + 1), ttm->tm_mday, ttm->tm_hour,
-        ttm->tm_min, ttm->tm_sec);
+        (timeptr->tm_year + 1900), (timeptr->tm_mon + 1), timeptr->tm_mday,
+        timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec);
     printf("\n");
 }

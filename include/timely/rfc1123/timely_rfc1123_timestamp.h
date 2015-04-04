@@ -10,6 +10,6 @@
     typedef size_t rsize_t;
 #endif
 
-size_t timely_rfc1123_timestamp(char *dest, rsize_t dmax, const time_t *restrict timer);
+size_t timely_rfc1123_timestamp(char *restrict dest, rsize_t dmax, const time_t *restrict timer);
 
 #endif  /* TIMELY_RFC1123_TIMESTAMP_H */

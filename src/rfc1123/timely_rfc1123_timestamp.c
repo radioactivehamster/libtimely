@@ -1,6 +1,6 @@
 #include "timely/rfc1123/timely_rfc1123_timestamp.h"
 
-size_t timely_rfc1123_timestamp(char *dest, rsize_t dmax, const time_t *restrict timer) //! const time_t *restrict timer
+size_t timely_rfc1123_timestamp(char *restrict dest, rsize_t dmax, const time_t *restrict timer) //! const time_t *restrict timer
 {
     /**
      * @todo Add nullptr check to `timer` that defaults to "now".
