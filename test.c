@@ -3,6 +3,19 @@
 #include "timely.h"
 #include "_utils.h"
 
+int16_t timely_year_day_of(uint16_t year, uint8_t month, uint8_t day)
+{
+    int16_t day_of_year = (-1);
+
+    for (uint8_t m = 0; m < (month - 1); ++m) {
+        day_of_year += timely_month_num_days(year, month);
+    }
+
+    day_of_year += day;
+
+    return day_of_year;
+}
+
 //!
 //! @todo Generate a broken-down time `tm` struct.
 //!
@@ -45,84 +58,28 @@ int main(void)
 
     //! @see https://en.wikipedia.org/wiki/ISO_8601#Durations
 
-    //! 2. Create a representation of the epoc day (1970-01-01T00:00:00Z).
-    struct timely_moment moment = {
-        .year         = TIMELY_YEAR_EPOC,
-        .month        = 1,
-        .day          = 1,
-        .seconds      = -1,  //!< `int32_t`
-        .unix_time    = t,   //!< `time_t`
-        .in_leap_year = false
-    };
+    struct {
+        int y;
+        int m;
+        int d;
+    } dt = { .y = 2015, .m = 4, .d = 4 };
 
-    uint8_t month_num_days;
+    int16_t day_of_year = timely_year_day_of(dt.y, dt.m, dt.d);
 
-    // ------------------------------------------------------------
-
-    do {
-        //! 3. Determine if the representation is in a leap year. (initially we won't be)
-        moment.in_leap_year = timely_year_is_leap(moment.year);  //-/ (TIMELY_YEAR_EPOC);
-
-        //! 4. Iteratively process the days of each month in the year.
-        for (moment.month = 1;
-            moment.month <= 12 && moment.unix_time >= TIMELY_DAY_SECONDS_PER;
-            ++moment.month
-        ) {
-            month_num_days = timely_month_num_days(moment.year, moment.month);
-
-            //! 5. Iteratively process the days of the month.
-            for (moment.day = 1;
-                 moment.day <= month_num_days && moment.unix_time >= TIMELY_DAY_SECONDS_PER;
-                ++moment.day, moment.unix_time -= TIMELY_DAY_SECONDS_PER  //!< 86400
-            ) {
-                printf("%04hu-%02hhu-%02hhuT00:00:00Z\n", moment.year, moment.month, moment.day);
-            }
-
-            if (moment.unix_time < TIMELY_DAY_SECONDS_PER) {
-                break;
-            }
-        }
-    } while (moment.unix_time >= TIMELY_DAY_SECONDS_PER && ++moment.year);
-
-    // ------------------------------------------------------------
-
-    assert(moment.unix_time <= INT_MAX);
-
-    int h = (-1), m = (-1), s = (-1);
-
-    s = moment.unix_time;
-
-    m = (s / 60);
-    s -= (m * 60);
-
-    h = (m / 60);
-    m -= (h * 60);
-
-    char ts[30] = {0};
-    timely_rfc1123_timestamp(ts, 30, &t);
-
-    //! @todo Formally verify bounds of each component of time. e.g. h <= 60
-    assert(h <= 60 && h >= 0);
-    assert(m <= 60 && m >= 0);
-    assert(s <= 60 && s >= 0);
-
-    printf("\n||========================||\n\n");
-
-    printf("[t]: %zu\n", t);
-    printf("[t:rfc1123]: %s\n", ts);
-    printf("[unix]: %ld\n",moment.unix_time);
-    printf("[h]: %d\n", h);
-    printf("[m]: %d\n", m);
-    printf("[s]: %d\n", s);
-
-    printf("\n||=========================||\n\n");
+    printf("%04d-%02d-%02d\n", dt.y, dt.m, dt.d);
+    printf("[timely] Day of year: %hu\n", day_of_year);
 
     struct tm *timeptr = gmtime(&t);
 
-    printf("[libtimely:iso8601]: %04hu-%02hhu-%02hhuT%02d:%02d:%02dZ\n",
-        moment.year, moment.month, moment.day, h, m, s);
-    printf("[gmtime:iso8601]:    %04d-%02d-%02dT%02d:%02d:%02dZ\n",
-        (timeptr->tm_year + 1900), (timeptr->tm_mon + 1), timeptr->tm_mday,
-        timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec);
-    printf("\n");
+    printf("%04d-%02d-%02d\n", (timeptr->tm_year + 1900), (timeptr->tm_mon + 1), timeptr->tm_mday);
+    printf("[stdlib] Day of year: %d\n", timeptr->tm_yday);
+
+
+    // ------------------------------------------------------------
+
+    ///printf("[libtimely:iso8601]: %04hu-%02hhu-%02hhuT%02d:%02d:%02dZ\n",
+    ///    moment.year, moment.month, moment.day, h, m, s);
+    ///printf("[gmtime:iso8601]:    %04d-%02d-%02dT%02d:%02d:%02dZ\n",
+    ///    (timeptr->tm_year + 1900), (timeptr->tm_mon + 1), timeptr->tm_mday,
+    ///    timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec);
 }
