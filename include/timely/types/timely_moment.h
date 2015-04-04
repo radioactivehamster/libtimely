@@ -12,7 +12,7 @@ struct timely_moment {
     uint16_t year;
     uint8_t month;
     uint8_t day;
-    /** @todo Add `.seconds` into the day property */
+    int8_t day_of_week;
     int32_t seconds;
     time_t unix_time;
     bool in_leap_year;
