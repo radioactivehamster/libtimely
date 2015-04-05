@@ -1,4 +1,5 @@
 *~
+*-test
 *.d
 *.dll
 *.o
@@ -15,4 +16,5 @@
 *.scratch
 .idea
 .linter-clang-includes
+.objects
 .scratch

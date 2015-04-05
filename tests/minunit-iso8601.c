@@ -7,7 +7,7 @@
 #include "timely.h"
 #include "minunit.h"
 
-#define ISO8601_MAX 21
+#define ISO8601_MAX 30
 #define ISO8601_FMT "%04d-%02d-%02dT%02d:%02d:%02dZ"
 
 int timely_iso8601(char dest[], time_t timer)
