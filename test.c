@@ -313,7 +313,22 @@ struct tm *timely_timer_to_tm(struct tm *dest, const time_t *timer)
     dest->tm_year  = (moment.year - 1900);
     dest->tm_wday  = (moment.day_of_week - 1);
     dest->tm_yday  = timely_year_day_of(moment.year, moment.month, moment.day);
-    dest->tm_isdst = (-1);
+
+    //-//-// dest->tm_isdst = (-1);
+
+    /**
+     * @todo DST is not applicable to UTC apparently, that makes sense but need
+     * to verify!
+     */
+    dest->tm_isdst = 0;
+
+    /**
+     * @todo These are BSD (and adopeted GNU extension) members. Need to look
+     *       into the proper feature test macros to enable these.
+     * <https://www.gnu.org/software/libc/manual/html_node/Broken_002ddown-Time.html>
+     */
+    //?//?// tp->tm_zone = "GMT";
+    //?//?// tp->tm_gmtoff = 0L;
 
     return dest;
 
