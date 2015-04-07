@@ -1,9 +1,17 @@
-#include "timely/month/timely_month_num_days.h"
+#ifndef TIMELY_NUM_DAYS_IN_MONTH_H
+#define TIMELY_NUM_DAYS_IN_MONTH_H
 
-uint16_t timely_month_num_days(uint16_t year, uint8_t month)
+#include <stdint.h>
+#include "./is_leap_year.h"
+
+static inline int8_t timely_num_days_in_month(uint16_t year, uint8_t month)
 {
-    if ((month - 1) != TIMELY_MONTH_FEBRUARY || timely_year_is_leap(year) == false) {
-        return ((uint8_t[TIMELY_MONTHS_IN_YEAR]) {
+    if (month == 0) return -1;
+
+    enum { FEBRUARY = 2, MONTHS_PER_YEAR = 12 };
+
+    if (month != FEBRUARY || !timely_is_leap_year(year)) {
+        return ((uint8_t[]) {
             31,  //! January
             28,  //! February
             31,  //! March
@@ -22,3 +30,5 @@ uint16_t timely_month_num_days(uint16_t year, uint8_t month)
     //!< February 29; leap day.
     return 29;
 }
+
+#endif /* TIMELY_NUM_DAYS_IN_MONTH_H */
