@@ -5,21 +5,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "timely/day_of_year.h"
-#include "timely/iso8601_utc_timestamp.h"
-#include "timely/moment.h"
-#include "timely/num_days_in_month.h"
-#include "timely/rfc1123_timestamp.h"
-#include "timely/set_default_locale.h"
-#include "timely/tm_ctor.h"
-
-int timely_moment_test(char dest[], time_t timer);
-
-struct tm *timely_timer_to_tm(struct tm *dest, const time_t *timer);
-
-#ifndef TIME_UTC
-    #define TIME_UTC 1
-#endif
+#include "timely.h"
 
 int main(void)
 {
