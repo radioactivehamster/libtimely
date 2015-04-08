@@ -14,7 +14,7 @@ default:
 	@ $(CC) $(CFLAGS) test.c && ./a.out
 
 check-test:
-	@$(CC) $(CFLAGS) -o check-iso8601-test "tests/check-iso8601.c" -lcheck $(OBJS)
+	@$(CC) $(CFLAGS) -o check-iso8601-utc-test "tests/check-iso8601_utc_timestamp.c" -lcheck $(OBJS)
 
 minunit-test:
 	@$(CC) $(CFLAGS) -o minunit-iso8601-test "tests/minunit-iso8601.c" $(OBJS)
