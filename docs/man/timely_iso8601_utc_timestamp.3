@@ -1,0 +1,27 @@
+.Dd April 8, 2015
+.Dt TIMELY 3 PRM  .\" Programmer's Manual \"
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_iso8601_utc_timestamp
+.Nd creates an ISO8601 UTC timestamp string
+.\"
+.Sh SYNOPSIS
+.\" ========
+.In timely/iso8601_utc_timestamp.h
+.\"
+.Ft static inline int
+.Fn timely_iso8601_utc_timestamp "char *restrict dest, const time_t *restrict timer"
+.\"
+.Sh DESCRIPTION
+.\" ===========
+Creates an ISO8601 UTC timestamp string in the provided destination buffer.
+.\"
+.Sh RETURN VALUES
+.\" =============
+Returns the number of characters assigned to the destination string.
+.Sh SEE ALSO
+.\" ========
+.Xr libtimely 3 ,
+.Xr timely_moment 3

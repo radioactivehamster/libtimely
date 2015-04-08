@@ -1,0 +1,31 @@
+.Dd April 8, 2015
+.Dt TIMELY 3 PRM  .\" Programmer's Manual \"
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_is_leap_year
+.Nd determines if the supplied year is a leap year
+.\"
+.Sh SYNOPSIS
+.\" ========
+.In timely/day_of_year.h
+.\"
+.Ft static inline int8_t
+.Fn timely_is_leap_year "uint16_t year"
+.\"
+.Sh DESCRIPTION
+.\" ===========
+Used to determine if a year is a common or leap year.
+.\"
+.Sh RETURN VALUES
+.\" =============
+Returns
+.Dq 0
+when not true (during a common year), and
+.Dq 1
+for a leap year.
+.Sh SEE ALSO
+.\" ========
+.Xr libtimely 3 ,
+.Xr timely_moment 3

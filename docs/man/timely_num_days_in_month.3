@@ -1,0 +1,27 @@
+.Dd April 8, 2015
+.Dt TIMELY 3 PRM  .\" Programmer's Manual \"
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_num_days_in_month
+.Nd determines the number of days in the provided month
+.\"
+.Sh SYNOPSIS
+.\" ========
+.In timely/num_days_in_month.h
+.\"
+.Ft static inline int8_t
+.Fn timely_num_days_in_month "uint16_t year, uint8_t month"
+.\"
+.Sh DESCRIPTION
+.\" ===========
+Determines the number of days in the provided month, taking into account leap years.
+.\"
+.Sh RETURN VALUES
+.\" =============
+Returns the number of days in the month.
+.Sh SEE ALSO
+.\" ========
+.Xr libtimely 3 ,
+.Xr timely_moment 3

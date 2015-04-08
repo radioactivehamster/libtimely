@@ -1,34 +1,50 @@
-.\" The following commands are required for all man pages.
-.Dd Month day, year
-.Os [OPERATING_SYSTEM] [version/release]
-.Dt DOCUMENT_TITLE [section number] [architecture/volume]
+.Dd April 8, 2015
+.Dt TIMELY 3 PRM  .\" Programmer's Manual \"
+.Os libtimely 0.0.0
+.\"
 .Sh NAME
-.Nm name
-.Nd one line description of name
+.\" ====
+.Nm libtimely
+.Nd utilities to work with time values and structures
 .\" This next command is for sections 2 and 3 only.
-.\" .Sh LIBRARY
+.\"
+.Sh LIBRARY
+.\" =======
+.Lb timely
+.\"
 .Sh SYNOPSIS
+.\" ========
+.In timely.h
+.\" ---
+.Vt struct timely_moment ;
+.\" ---
+.Ft static inline int16_t
+.Fn timely_day_of_year "uint16_t year, uint8_t month, uint8_t day"
+.\" ---
+.Ft static inline int8_t
+.Fn timely_is_leap_year "uint16_t year"
+.\" ---
+.Ft static inline int
+.Fn timely_iso8601_utc_timestamp "char *restrict dest, const time_t *restrict timer"
+.\" ---
+.Ft static inline int8_t
+.Fn timely_num_days_in_month "uint16_t year, uint8_t month"
+.\" ---
+.Ft static inline int
+.Fn timely_rfc1123_gmt_timestamp "char *restrict dest, const time_t *restrict timer"
+.\" ---
+.Ft static inline void
+.Fn timely_set_default_locale "void"
+.\" ---
+.Ft struct tm *
+.Fn timely_tm_ctor "struct tm *dest, const time_t *timer"
+.\"
 .Sh DESCRIPTION
-.\" The following commands should be uncommented and
-.\" used where appropriate.
-.\" .Sh IMPLEMENTATION NOTES
-.\" This next command is for sections 2, 3 and 9 function
-.\" return values only.
-.\" .Sh RETURN VALUES
-.\" This next command is for sections 1, 6, 7 and 8 only.
-.\" .Sh ENVIRONMENT
-.\" .Sh FILES
-.\" .Sh EXAMPLES
-.\" This next command is for sections 1, 6, 7, 8 and 9 only
-.\"     (command return values (to shell) and
-.\"     fprintf/stderr type diagnostics).
-.\" .Sh DIAGNOSTICS
-.\" .Sh COMPATIBILITY
-.\" This next command is for sections 2, 3 and 9 error
-.\"     and signal handling only.
-.\" .Sh ERRORS
-.\" .Sh SEE ALSO
-.\" .Sh STANDARDS
-.\" .Sh HISTORY
-.\" .Sh AUTHORS
-.\" .Sh BUGS
+.\" ===========
+A helper lib for working with
+.Dq Vt struct tm
+structures and timestamps.
+.\"
+.Sh SEE ALSO
+.\" ===========
+.Xr timely_moment 3

@@ -1,0 +1,26 @@
+.Dd April 8, 2015
+.Dt TIMELY 3 PRM  .\" Programmer's Manual \"
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_day_of_year
+.Nd retrieve the day of the year starting from an index of
+.Dq 1
+.\"
+.Sh SYNOPSIS
+.\" ========
+.In timely/day_of_year.h
+.\"
+.Ft static inline int16_t
+.Fn timely_day_of_year "uint16_t year, uint8_t month, uint8_t day"
+.\"
+.Sh DESCRIPTION
+.\" ===========
+Returns an integer representing the day of the year within the range of
+.Sy [1..364]  .\" symbolic emphasis macro \"
+.\"
+.Sh SEE ALSO
+.\" ========
+.Xr libtimely 3 ,
+.Xr timely_moment 3

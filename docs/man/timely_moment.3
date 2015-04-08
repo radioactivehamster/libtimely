@@ -1,0 +1,28 @@
+.Dd April 8, 2015
+.Dt TIMELY 3 PRM  .\" Programmer's Manual \"
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_moment
+.Nd a structure representing a moment in time
+.\"
+.Sh SYNOPSIS
+.\" ========
+.Vt struct timely_moment  {
+.Vt \ \ \ \ uint16_t year;
+.Vt \ \ \ \ uint8_t month;
+.Vt \ \ \ \ uint8_t day;
+.Vt \ \ \ \ int8_t day_of_week;
+.Vt \ \ \ \ int32_t seconds;
+.Vt \ \ \ \ time_t unix_time;
+.Vt \ \ \ \ bool is_leap_year;
+};
+.\"
+.Sh DESCRIPTION
+.\" ===========
+A thing and stuff that's like stuff... yeah that's it.
+.\"
+.Sh SEE ALSO
+.\" ========
+.Xr libtimely 3
