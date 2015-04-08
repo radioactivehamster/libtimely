@@ -1,10 +1,11 @@
-STD    := c11
-SRC     = $(wildcard src/*/*.c)
-OBJDIR ?= .objects/
-OBJSRC  = $(SRC:.c=.o)
-OBJS   := $(addprefix $(OBJDIR), $(notdir $(OBJSRC)))
-CFLAGS ?= -std=$(STD) -O3 -pedantic -Wall -Wextra -Wswitch-default -Iinclude
-RIMRAF ?= rm -rf
+STD         := c11
+SRC          = $(wildcard src/*/*.c)
+OBJDIR      ?= .objects/
+OBJSRC       = $(SRC:.c=.o)
+TESTSBINDIR ?= tests/bin/
+OBJS        := $(addprefix $(OBJDIR), $(notdir $(OBJSRC)))
+CFLAGS      ?= -std=$(STD) -O3 -pedantic -Wall -Wextra -Wswitch-default -Iinclude
+RIMRAF      ?= rm -rf
 
 # @link https://www.gnu.org/software/make/manual/html_node/File-Name-Functions.html
 # @link http://www.gnu.org/prep/standards/standards.html#Makefile-Conventions
@@ -13,20 +14,19 @@ RIMRAF ?= rm -rf
 default:
 	@ $(CC) $(CFLAGS) test.c && ./a.out
 
-check-test:
-	@$(CC) $(CFLAGS) -o check-iso8601-utc-test "tests/check-iso8601_utc_timestamp.c" -lcheck $(OBJS)
-
-minunit-test:
-	@$(CC) $(CFLAGS) -o minunit-iso8601-test "tests/minunit-iso8601.c" $(OBJS)
+test:
+	@if test ! -d $(TESTSBINDIR); then mkdir $(TESTSBINDIR); fi
+	@$(CC) $(CFLAGS) -o "$(TESTSBINDIR)libtimely" "tests/libtimely.c" -lcheck $(OBJS)
+	@./"$(TESTSBINDIR)libtimely"
 
 %.o: %.c
-	@if test ! -d $(OBJDIR); then echo "Making dir..."; mkdir $(OBJDIR); fi
+	@if test ! -d $(OBJDIR); then mkdir $(OBJDIR); fi
 	@ #$(CC) $(CFLAGS) -MM $< -c -o $(OBJDIR)$(notdir $@)
 	@$(CC) $(CFLAGS) $< -c -o $(OBJDIR)$(notdir $@)
 
 clean:
-	@$(RIMRAF) $(OBJS) $(OBJDIR) $(OBJSRC) test.out $(wildcard *-test)
+	@$(RIMRAF) $(OBJS) $(OBJDIR) $(OBJSRC) $(TESTSBINDIR) test.out $(wildcard *-test)
 
 rebuild: clean default
 
-.PHONEY: default clean
+.PHONEY: default test clean
