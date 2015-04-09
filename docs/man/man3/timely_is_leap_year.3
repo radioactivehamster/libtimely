@@ -4,23 +4,28 @@
 .\"
 .Sh NAME
 .\" ====
-.Nm timely_num_days_in_month
-.Nd determines the number of days in the provided month
+.Nm timely_is_leap_year
+.Nd determines if the supplied year is a leap year
 .\"
 .Sh SYNOPSIS
 .\" ========
-.In timely/num_days_in_month.h
+.In timely/day_of_year.h
 .\"
 .Ft static inline int8_t
-.Fn timely_num_days_in_month "uint16_t year, uint8_t month"
+.Fn timely_is_leap_year "uint16_t year"
 .\"
 .Sh DESCRIPTION
 .\" ===========
-Determines the number of days in the provided month, taking into account leap years.
+Used to determine if a year is a common or leap year.
 .\"
 .Sh RETURN VALUES
 .\" =============
-Returns the number of days in the month.
+Returns
+.Dq 0
+when not true (during a common year), and
+.Dq 1
+for a leap year.
+.\"
 .Sh SEE ALSO
 .\" ========
 .Xr libtimely 3 ,

@@ -1,0 +1,54 @@
+.Dd April 9, 2015
+.Dt TIMELY 3 PRM
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_rfc1123_gmt_timestamp
+.Nd format date and time as RFC1123
+.\"
+.Sh SYNOPSIS
+.\" ========
+.In timely/rfc1123_gmt_timestamp.h
+.Pp
+.Vt enum
+.Va RFC1123_GMT_SIZE
+.\"
+.Ft static inline int
+.Fn timely_rfc1123_gmt_timestamp "char *restrict dest, const time_t *restrict timer"
+.\"
+.Sh DESCRIPTION
+.\" ===========
+The
+.Fn timely_rfc1123_gmt_timestamp
+function takes a pointer to
+.Fa timer
+and formats it as a string via
+.Dq Sy "%a, %d %b %Y %T GMT"
+which is then stored in the
+.Fa dest
+buffer.
+e.g. when provided with an instance of
+.Va timer
+which is equal to
+.Dq 1428607313
+than the string stored in
+.Va dest
+shall be
+.Dq "Thu, 09 Apr 2015 19:21:53 GMT"
+.\"
+.Sh RETURN VALUES
+.\" =============
+Returns the number of characters copied into the
+.Va dest
+buffer or
+.Dq Sy -1
+upon failure.
+.Pp
+.Sh SEE ALSO
+.\" ========
+.Xr libtimely 3 ,
+.Xr timely_moment 3
+.Pp
+.Sy  Internet Engineering Task Force: RFC1123
+<http://www.ietf.org/rfc/rfc1123.txt>

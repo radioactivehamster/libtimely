@@ -13,7 +13,6 @@
 #include "timely/moment.h"
 #include "timely/num_days_in_month.h"
 #include "timely/rfc1123_gmt_timestamp.h"
-#include "timely/set_default_locale.h"
 #include "timely/tm_ctor.h"
 
 #endif  /* TIMELY_H */

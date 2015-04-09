@@ -1,0 +1,50 @@
+.Dd April 9, 2015
+.Dt TIMELY 3 PRM
+.Os libtimely 0.0.0
+.\"
+.Sh NAME
+.\" ====
+.Nm timely_tm_ctor
+.Nd initializes a
+.Vt "struct tm"
+representation of time
+.\"
+.Sh SYNOPSIS
+.\" ========
+.In timely/tm_ctor.h
+.Pp
+.Ft struct tm *
+.Fn timely_tm_ctor "struct tm *dest, const time_t *timer"
+.\"
+.Sh DESCRIPTION
+.\" ===========
+Takes an instance of unix time and acts as a constructor to initialize an instance of
+.Vt struct tm
+for working with various functions in
+.In time.h
+.\"
+.Sh EXAMPLES
+.\" ========
+.Bd -literal -offset indent
+#include <assert.h>
+#include <time.h>
+#include <timely/tm_ctor.h>
+
+time_t t = time(NULL);
+assert(t != (time_t)(-1));
+struct tm timedata;
+timely_tm_ctor(&timedata, &t);
+.Ed
+.\"
+.Sh RETURNS
+.\" =======
+Returns an pointer to
+.Fa dest
+or upon failure
+.Sy NULL
+.\"
+.Sh SEE ALSO
+.\" ========
+.Xr gmtime 3 ,
+.Xr time 3 ,
+.Xr libtimely 3
