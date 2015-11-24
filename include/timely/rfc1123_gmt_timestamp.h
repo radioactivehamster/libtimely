@@ -21,4 +21,4 @@ static inline int timely_rfc1123_gmt_timestamp(char *restrict dest, const time_t
     return (dlen <= INT_MAX) ? (int)dlen : -1;
 }
 
-#endif  /* TIMELY_RFC1123_GMT_TIMESTAMP_H */
+#endif  /* !TIMELY_RFC1123_GMT_TIMESTAMP_H */

@@ -33,19 +33,17 @@ man3ext     = .3
 # ---------------------
 
 # testdir = tests
-# GROFF = groff -mdoc -T ascii -E
 GROFF = groff -mdoc -T utf8 -E
+
+# ---------------------
+
+man3s = $(wildcard doc/man/man3/*$(man3ext))
 
 # ---------------------
 
 # The first target listed acts as the default so it is named thusly for semantics.
 # default:
 all:
-	@ #echo $(test -w /usr/local)
-	@ #echo $(testno)
-	@ #echo $(HOME)
-	@echo $(prefix)
-	@echo $(mandir)
 	@ #if test ! -w $(prefix); then mkdir $(TESTSBINDIR); fi
 	@ #$(CC) $(CFLAGS) test.c && ./a.out
 
@@ -63,7 +61,7 @@ clean:
 	@$(RIMRAF) $(OBJS) $(OBJDIR) $(OBJSRC) $(TESTSBINDIR) test.out $(wildcard *-test)
 
 man:
-	$(foreach man3, $(wildcard doc/man/man3/*$(man3ext)), $(GROFF) $(man3) > debug-man/$(notdir $(man3));)
+	$(foreach man3, $(man3s), $(GROFF) $(man3) > debug-man/$(notdir $(man3));)
 
 # man-pages:
 #	@ #$MANPAGES
