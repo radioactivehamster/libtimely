@@ -1,12 +1,12 @@
 RIMRAF     = $(RM) -f
-STD        = -std=C11
+STD        = -std=c11
 
 # > If there are C compiler options that must be used for proper compilation of
 # > certain files, do not include them in CFLAGS. Users expect to be able to
 # > specify CFLAGS freely themselves. Instead, arrange to pass the necessary
 # > options to the C compiler independently of CFLAGS, by writing them
 # > explicitly in the compilation commands or by defining an implicit rule [...]
-CFLAGS     = $(STD) -02 -pedantic -Wall -Wextra
+CFLAGS     = $(STD) -O2 -pedantic -Wall -Wextra
 ALL_CFLAGS = -Iinclude $(CFLAGS)
 
 PKGNAME = libtimely
@@ -14,7 +14,7 @@ PKGNAME = libtimely
 # Common prefix for installation directories.
 # > Please make these install-format targets invoke the commands for the format
 # > target, for example, by making format a dependency.
-# <https://www.gnu.org/prep/standards/standards.html#Directory-Variables>
+# > -- <https://www.gnu.org/prep/standards/standards.html#Directory-Variables>
 prefix      = /usr/local
 datarootdir = $(prefix)/share
 includedir  = $(prefix)/include
