@@ -1,0 +1,22 @@
+{
+  "name": "libtimely",
+  "version": "0.0.0",
+  "repo": "radioactivehamster/libtimely",
+  "description": "Oh so timely, or something...",
+  "keywords": ["date", "time", "timestamp", "iso8601", "rfc1123"],
+  "license": "MIT",
+  "src": [
+    "include/timely.h",
+    "include/timely/day_of_year.h",
+    "include/timely/is_leap_year.h",
+    "include/timely/iso8601_utc_timestamp.h",
+    "include/timely/moment.h",
+    "include/timely/num_days_in_month.h",
+    "include/timely/rfc1123_gmt_timestamp.h",
+    "include/timely/tm_ctor.h"
+  ],
+  "dependencies": {
+    "stephenmathieson/assertion-macros.h": "0.3.0",
+    "stephenmathieson/describe.h": "2.1.0"
+  }
+}
