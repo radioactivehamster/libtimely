@@ -20,7 +20,6 @@ static inline int timely_iso8601_utc_timestamp(char *restrict dest, const time_t
     struct tm tm_ptr;
     assert(timely_tm_ctor(&tm_ptr, timer) != NULL);
 
-
     return snprintf(dest, ISO8601_UTC_SIZE, format,
         tm_ptr.tm_year + 1900,
         tm_ptr.tm_mon + 1,
